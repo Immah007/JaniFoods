@@ -317,7 +317,166 @@ const handleIPNCallback = async (req, res) => {
         from: '"JaniFoods" <no-reply@shopjani.com>',
         to: completeOrder.email,
         subject: 'Your Order is Confirmed Successfully!',
-        html: `Thank you ${completeOrder.first_name}! We have received your otrder and we are currently processing it. It will be rady for delivery shortly`
+        html: `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You for Your Order</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 12px;
+            background-color: #ECEFF1;
+            color: #263238;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .content {
+            background-color: #ffffff;
+            padding: 0;
+            border-radius: 7px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .bold{
+            font-weight: 800;
+        }
+        
+        .logo-container {
+            padding: 20px 20px;
+            text-align: center;
+            background-color: #263238;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        .email-body {
+            padding: 20px;
+            padding-top: 0;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #263238;
+        }
+        
+        .signature {
+            margin-top: 30px;
+            font-style: italic;
+        }
+        
+        .footer {
+            background-color: #263238;
+            padding: 30px 12px;
+            margin: 0 auto;
+            font-size: .7rem;
+            text-align: center;
+        }
+        
+        .social-links {
+            margin-bottom: 20px;
+        }
+        
+        .social-link {
+            color: #ffffff;
+            font-size: 18px;
+            margin: 0 10px;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .social-link:hover {
+            color: #1B5E20;
+        }
+        
+        .footer-links {
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        
+        .footer-links a {
+            color: #607D8B;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        
+        .footer-links a:hover {
+            color: #ffffff;
+        }
+        
+        .copyright p {
+            color: #607D8B;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-body {
+                padding: 20px;
+            }
+            
+            p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="logo-container">
+                <img src="/images/janifoods_bnw.png" alt="JaniFoods Logo" class="logo">
+            </div>
+            
+            <div class="email-body">
+                <p>Thank you ${completeOrder.first_name} for your order,</p>
+                
+                <p>Your order is not just a meal to us - it is a moment, <b class="bold">made with care</b>, crafted with precision, and delivered with heart. We have received your payment, and we are meticulously crafting your order to your desired taste 😉</p>
+                 
+                <p>Incase of any issues or queries concerning your order, please feel free to reach out to us via our customer support service. We always sort out stuff! Again, Thank you for letting us be a part of your day!😊 Anytime the cravings hit, we will be ready to make it even more special for you!😁</p>
+                
+                <div class="signature">
+                    <p>With special appreciation,<br><b>The JaniFoods Team</b><br>Nairobi, KE</p>
+                    <p>Because once you experience us, it's never quite the same again.</p>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#">Customer Support</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 JaniFoods Nairobi. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>`
       };
 
       // Send the Confirmation email
