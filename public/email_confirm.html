@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jikoni - Confirm Email</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1B5E20;
+            --primary-light: #E8F5E9;
+            --primary-dark: #004405;
+            --accent: #FFA000;
+            --dark: #263238;
+            --gray: #607D8B;
+            --light-gray: #ECEFF1;
+            --white: #FFFFFF;
+            --error: #D32F2F;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .confirm-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .logo img {
+            height: 2.5rem;
+        }
+
+        h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .info-text strong {
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .otp-inputs input {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            font-size: 18px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+
+        .otp-inputs input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .footer-links a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #E8F5E9;
+            color: var(--primary-dark);
+        }
+
+        .alert-error {
+            background-color: #FDEDED;
+            color: var(--error);
+        }
+
+        .resend-link {
+            font-size: 13px;
+            color: var(--gray);
+            margin-top: 15px;
+            display: block;
+        }
+
+        .resend-link a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .resend-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .confirm-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="confirm-container">
+        <div class="logo">
+            <img src="images/janifoods_main.png" alt="JaniFoods Logo">
+        </div>
+        
+        <h1>Verify Your Email Address</h1>
+        
+        <p class="info-text">We've sent a 5-digit verification code to <strong id="userEmail">user@example.com</strong>. Please enter it below.</p>
+        
+        <div class="alert alert-success" id="successAlert">
+            Email verified successfully! Redirecting to your account...
+        </div>
+        
+        <div class="alert alert-error" id="errorAlert">
+            The verification code is incorrect
+        </div>
+        
+        <form id="verifyForm">
+            <div class="form-group">
+                <label for="otp">Verification Code</label>
+                <div class="otp-inputs">
+                    <input type="text" id="otp1" maxlength="1" pattern="[0-9]" inputmode="numeric" autofocus>
+                    <input type="text" id="otp2" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    <input type="text" id="otp3" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    <input type="text" id="otp4" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                    <input type="text" id="otp5" maxlength="1" pattern="[0-9]" inputmode="numeric">
+                </div>
+                <div class="error-message" id="otpError">Please enter the 5-digit code</div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" id="verifyBtn">
+                <span>Verify Email</span>
+                <i class="fas fa-spinner fa-spin" style="display: none;"></i>
+            </button>
+        </form>
+        
+        <p class="resend-link">Didn't receive the code? <a href="#" id="resendLink">Resend code</a></p>
+        
+        <div class="footer-links">
+            <p><a href="userloginfile.html">Back to Sign In</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Get email from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        if (email) {
+            document.getElementById('userEmail').textContent = email;
+        }
+        
+        // OTP input handling
+        const otpInputs = document.querySelectorAll('.otp-inputs input');
+        
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1) {
+                    if (index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+                }
+            });
+            
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && e.target.value.length === 0) {
+                    if (index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                }
+            });
+        });
+        
+        document.getElementById('verifyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get OTP values
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+            
+            // Reset alerts
+            successAlert.style.display = 'none';
+            errorAlert.style.display = 'none';
+            
+            // Validate OTP
+            if (otp.length !== 5) {
+                document.getElementById('otpError').style.display = 'block';
+                return;
+            } else {
+                document.getElementById('otpError').style.display = 'none';
+            }
+            
+            // Show loading spinner
+            verifyBtn.disabled = true;
+            verifyBtn.querySelector('i').style.display = 'inline-block';
+            verifyBtn.querySelector('span').textContent = 'Verifying...';
+            
+            try {
+                // Mock API call
+                const response = await mockVerifyOTPAPI(email, otp);
+                
+                if (response.success) {
+                    successAlert.style.display = 'block';
+                    // In a real app, we would redirect after successful verification
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                } else {
+                    errorAlert.style.display = 'block';
+                    errorAlert.textContent = response.error || 'The verification code is incorrect';
+                }
+            } catch (error) {
+                errorAlert.style.display = 'block';
+                errorAlert.textContent = 'An error occurred. Please try again.';
+            } finally {
+                // Reset button
+                verifyBtn.disabled = false;
+                verifyBtn.querySelector('i').style.display = 'none';
+                verifyBtn.querySelector('span').textContent = 'Verify Email';
+            }
+        });
+        
+        document.getElementById('resendLink').addEventListener('click', async function(e) {
+            e.preventDefault();
+            
+            const resendLink = document.getElementById('resendLink');
+            resendLink.textContent = 'Sending...';
+            
+            try {
+                // Mock API call to resend OTP
+                const response = await mockResendOTPAPI(email);
+                
+                if (response.success) {
+                    alert('A new verification code has been sent to your email.');
+                } else {
+                    alert('Failed to resend code. Please try again.');
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.');
+            } finally {
+                resendLink.textContent = 'Resend code';
+            }
+        });
+        
+        // Mock API functions
+        async function mockVerifyOTPAPI(email, otp) {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // Mock response - in a real app, this would be a fetch call to your backend
+            return new Promise((resolve) => {
+                // Simple validation for demo purposes
+                if (otp === '12345') { // Hardcoded for demo
+                    resolve({
+                        success: true,
+                        message: 'Email verified successfully'
+                    });
+                } else {
+                    resolve({
+                        success: false,
+                        error: 'Invalid verification code'
+                    });
+                }
+            });
+        }
+        
+        async function mockResendOTPAPI(email) {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            // Mock response
+            return new Promise((resolve) => {
+                resolve({
+                    success: true,
+                    message: 'New code sent successfully'
+                });
+            });
+        }
+    </script>
+</body>
+</html>

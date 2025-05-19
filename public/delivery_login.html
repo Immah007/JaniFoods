@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jikoni | Delivery Portal - Login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E8B57;
+            --primary-light: #E8F5E9;
+            --primary-dark: #1B5E20;
+            --dark: #263238;
+            --gray: #607D8B;
+            --light-gray: #ECEFF1;
+            --white: #FFFFFF;
+            --error: #E53935;
+            --success: #43A047;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .auth-container{
+            width: 100%;
+            height: 80dvh;
+            max-width: 420px;
+        }
+
+        .auth-card {
+            width: 100%;
+            height: 100%;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 7px;
+        }
+
+        .auth-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+
+        .auth-title {
+            font-size: 14px;
+            color: var(--gray);
+            font-weight: 300;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            padding-right: 40px;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(46, 139, 87, 0.2);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .password-toggle {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .remember-me input {
+            accent-color: var(--primary);
+        }
+
+        .forgot-password {
+            font-size: 13px;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .forgot-password:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .auth-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .google-btn {
+            background: var(--white);
+            color: var(--dark);
+            border: 1px solid var(--light-gray);
+        }
+
+        .google-btn:hover {
+            background: var(--light-gray);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--light-gray);
+            margin: 0 10px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .auth-link:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-group.error .form-input {
+            border-color: var(--error);
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .success-message {
+            color: var(--success);
+            font-size: 13px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .form-group.success .success-message {
+            display: block;
+        }
+
+        .btn-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .google-btn .btn-loading {
+            border-top-color: var(--primary);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Forgot Password Card */
+        .forgot-password-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--white);
+            padding: 40px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .forgot-password-card.active {
+            transform: translateX(0);
+        }
+
+        .back-to-login {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            font-size: 13px;
+            text-decoration: none;
+            margin-bottom: 16px;
+        }
+
+        .back-to-login i {
+            font-size: 12px;
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: rgba(211, 47, 47, 0.9);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 30px 20px;
+            }
+
+            .auth-header {
+                margin-bottom: 24px;
+            }
+
+            .auth-logo {
+                font-size: 20px;
+            }
+
+            .auth-title {
+                font-size: 16px;
+            }
+
+            .auth-form {
+                gap: 16px;
+            }
+
+            .form-footer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <!-- Login Card -->
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">Jikoni Deliveries</div>
+                <div class="auth-title">Sign in to your account</div>
+            </div>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group" id="emailGroup">
+                    <label class="form-label" for="loginEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" class="form-input" id="loginEmail" placeholder="Enter your email" required>
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+
+                <div class="form-group" id="passwordGroup">
+                    <label class="form-label" for="loginPassword">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+                        <button type="button" class="password-toggle input-icon" id="loginPasswordToggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="error-message" id="passwordError">Incorrect email or password</div>
+                </div>
+
+                <div class="form-footer">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot password?</a>
+                </div>
+
+                <button type="submit" class="auth-btn" id="loginBtn">
+                    <span>Sign In</span>
+                    <div class="btn-loading" id="loginSpinner" style="display: none;"></div>
+                </button>
+            </form>
+
+            <div class="divider">or continue with</div>
+
+            <button type="button" class="auth-btn google-btn" id="googleSignIn">
+                <i class="fab fa-google"></i>
+                <span>Sign in with Google</span>
+                <div class="btn-loading" id="googleSpinner" style="display: none;"></div>
+            </button>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="/signup" class="auth-link">Sign up</a>
+            </div>
+        </div>
+
+        <!-- Forgot Password Card -->
+        <div class="forgot-password-card" id="forgotPasswordCard">
+            <a href="#" class="back-to-login" id="backToLogin">
+                <i class="fas fa-arrow-left"></i>
+                Back to login
+            </a>
+
+            <div class="auth-header">
+                <div class="auth-logo">Reset Password</div>
+                <div class="auth-title">Enter your email to reset your password</div>
+            </div>
+
+            <form class="auth-form" id="forgotPasswordForm">
+                <div class="form-group" id="forgotEmailGroup">
+                    <label class="form-label" for="forgotEmail">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" class="form-input" id="forgotEmail" placeholder="Enter your email" required>
+                        <i class="fas fa-envelope input-icon"></i>
+                    </div>
+                    <div class="error-message" id="forgotEmailError">Please enter a valid email address</div>
+                    <div class="success-message" id="forgotSuccess">Password reset link sent to your email</div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="resetPasswordBtn">
+                    <span>Send Reset Link</span>
+                    <div class="btn-loading" id="resetSpinner" style="display: none;"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer">
+        <div class="toast" id="toast">
+            <span id="toastMessage">This feature is temporarily unavailable</span>
+            <i class="fas fa-exclamation-circle"></i>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const backToLogin = document.getElementById('backToLogin');
+        const googleSignIn = document.getElementById('googleSignIn');
+        const forgotPasswordCard = document.getElementById('forgotPasswordCard');
+        
+        // Input elements
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPassword = document.getElementById('loginPassword');
+        const loginPasswordToggle = document.getElementById('loginPasswordToggle');
+        const forgotEmail = document.getElementById('forgotEmail');
+        
+        // Button elements
+        const loginBtn = document.getElementById('loginBtn');
+        const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+        
+        // Spinner elements
+        const loginSpinner = document.getElementById('loginSpinner');
+        const googleSpinner = document.getElementById('googleSpinner');
+        const resetSpinner = document.getElementById('resetSpinner');
+        
+        // Toast elements
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        
+        // Initialize the app
+        function init() {
+            // Set up password toggle
+            loginPasswordToggle.addEventListener('click', togglePasswordVisibility);
+            
+            // Set up forgot password link
+            forgotPasswordLink.addEventListener('click', showForgotPassword);
+            
+            // Set up back to login link
+            backToLogin.addEventListener('click', showLogin);
+            
+            // Set up Google sign in
+            googleSignIn.addEventListener('click', handleGoogleSignIn);
+            
+            // Form submissions
+            loginForm.addEventListener('submit', handleLogin);
+            forgotPasswordForm.addEventListener('submit', handleForgotPassword);
+        }
+        
+        // Toggle password visibility
+        function togglePasswordVisibility() {
+            const isPassword = loginPassword.type === 'password';
+            loginPassword.type = isPassword ? 'text' : 'password';
+            loginPasswordToggle.innerHTML = isPassword ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+        }
+        
+        // Show forgot password card
+        function showForgotPassword(e) {
+            e.preventDefault();
+            forgotPasswordCard.classList.add('active');
+        }
+        
+        // Show login card
+        function showLogin(e) {
+            e.preventDefault();
+            forgotPasswordCard.classList.remove('active');
+        }
+        
+        // Handle Google sign in
+        function handleGoogleSignIn() {
+            // Show loading state
+            googleSpinner.style.display = 'block';
+            googleSignIn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Hide loading state
+                googleSpinner.style.display = 'none';
+                googleSignIn.disabled = false;
+                
+                // Show toast
+                showToast('This feature is temporarily unavailable. Please use regular sign in.');
+            }, 1500);
+        }
+        
+        // Validate email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+        
+        // Show error
+        function showError(element, message) {
+            const group = element.closest('.form-group');
+            const errorElement = group.querySelector('.error-message');
+            group.classList.add('error');
+            errorElement.textContent = message;
+        }
+        
+        // Clear error
+        function clearError(element) {
+            const group = element.closest('.form-group');
+            group.classList.remove('error');
+        }
+        
+        // Show success
+        function showSuccess(element, message) {
+            const group = element.closest('.form-group');
+            const successElement = group.querySelector('.success-message');
+            group.classList.add('success');
+            successElement.textContent = message;
+        }
+        
+        // Clear success
+        function clearSuccess(element) {
+            const group = element.closest('.form-group');
+            group.classList.remove('success');
+        }
+        
+        // Show toast
+        function showToast(message, isError = false) {
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error' : 'toast';
+            toast.classList.add('visible');
+            
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3000);
+        }
+        
+        // Handle login
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = loginEmail.value.trim();
+            const password = loginPassword.value.trim();
+            let isValid = true;
+            
+            // Clear previous errors
+            clearError(loginEmail);
+            clearError(loginPassword);
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                showError(loginEmail, 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            // Validate password
+            if (password.length < 6) {
+                showError(loginPassword, 'Password must be at least 6 characters');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Show loading state
+            loginSpinner.style.display = 'block';
+            loginBtn.disabled = true;
+            
+            // Simulate API call (in a real app, this would be a fetch request)
+            setTimeout(() => {
+                // Hide loading state
+                loginSpinner.style.display = 'none';
+                loginBtn.disabled = false;
+                
+                // Check credentials (hardcoded for demo)
+                if (email === 'my@email.com' && password === 'Pass_123') {
+                    // Successful login - in a real app, redirect to dashboard
+                    console.log('Login successful - redirecting to dashboard...');
+                    // window.location.href = 'delivery_interface.html';
+                } else {
+                    // Failed login
+                    showError(loginPassword, 'Incorrect email or password');
+                }
+            }, 1500);
+        }
+        
+        // Handle forgot password
+        function handleForgotPassword(e) {
+            e.preventDefault();
+            
+            // Get email
+            const email = forgotEmail.value.trim();
+            let isValid = true;
+            
+            // Clear previous errors/success
+            clearError(forgotEmail);
+            clearSuccess(forgotEmail);
+            
+            // Validate email
+            if (!validateEmail(email)) {
+                showError(forgotEmail, 'Please enter a valid email address');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Show loading state
+            resetSpinner.style.display = 'block';
+            resetPasswordBtn.disabled = true;
+            
+            // Simulate API call (in a real app, this would send an email)
+            setTimeout(() => {
+                // Hide loading state
+                resetSpinner.style.display = 'none';
+                resetPasswordBtn.disabled = false;
+                
+                // Show success
+                showSuccess(forgotEmail, 'If an account exists with this email, a reset link has been sent');
+                
+                // Clear form
+                forgotPasswordForm.reset();
+            }, 1500);
+        }
+        
+        // Initialize the app when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

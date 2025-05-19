@@ -1,0 +1,1689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jikoni | Delivery Portal</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2E8B57;
+            --primary-light: #E8F5E9;
+            --primary-dark: #1B5E20;
+            --accent: #FFA000;
+            --dark: #263238;
+            --gray: #607D8B;
+            --light-gray: #ECEFF1;
+            --white: #FFFFFF;
+            --border-radius: 12px;
+            --border-radius-sm: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --panel-width: 320px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 15px;
+            transition: transform 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            padding: 16px 0;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .profile-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .profile-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Main Content */
+        .dashboard {
+            padding: 20px 0 100px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .tabs {
+            display: flex;
+            padding: 7px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            border-radius: 7px;
+            padding: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .search-container {
+            position: relative;
+            padding: 12px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px;
+            outline: none;
+            padding-right: 36px;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-input:focus{
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 3px var(--primary-light);
+        } 
+
+        .search-clear {
+            position: absolute;
+            right: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            display: none;
+        }
+
+        /* Orders List */
+        .orders-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .order-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            position: relative;
+        }
+
+        .order-notified {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .order-delivered-time {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            color: var(--gray);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .order-id {
+            font-weight: 600;
+            color: var(--primary-dark);
+            font-size: 15px;
+        }
+
+        .order-id span {
+            color: var(--gray);
+            font-weight: 400;
+            margin-left: 4px;
+        }
+
+        .order-time {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        .order-details {
+            margin-bottom: 16px;
+        }
+
+        .order-items {
+            font-size: 14px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .order-location {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* QR Scanner Modal */
+        .scanner-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .scanner-modal.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .scanner-header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+
+        .scanner-title {
+            text-align: center;
+        }
+
+        .scanner-main-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .scanner-subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .profile-btn-scanner {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .scanner-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin: 20px auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .scanner-view {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #qrVideo {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .scanner-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            max-width: 300px;
+            max-height: 300px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            box-sizing: border-box;
+        }
+
+        .scanner-window::before,
+        .scanner-window::after,
+        .scanner-window-corner::before,
+        .scanner-window-corner::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--primary);
+            border-style: solid;
+            border-width: 0;
+        }
+
+        .scanner-window::before {
+            top: 0;
+            left: 0;
+            border-top-width: 3px;
+            border-left-width: 3px;
+            border-top-left-radius: 5px;
+        }
+
+        .scanner-window::after {
+            top: 0;
+            right: 0;
+            border-top-width: 3px;
+            border-right-width: 3px;
+            border-top-right-radius: 5px;
+        }
+
+        .scanner-window-corner::before {
+            bottom: 0;
+            left: 0;
+            border-bottom-width: 3px;
+            border-left-width: 3px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .scanner-window-corner::after {
+            bottom: 0;
+            right: 0;
+            border-bottom-width: 3px;
+            border-right-width: 3px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .scanner-line {
+            position: absolute;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 10px rgba(46, 139, 87, 0.5);
+            animation: scanAnimation 2s infinite linear;
+            z-index: 10;
+        }
+
+        @keyframes scanAnimation {
+            0% { top: 10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 90%; opacity: 0; }
+        }
+
+        .scanner-actions {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            margin: 0 auto;
+        }
+
+        .manual-input {
+            width: 100%;
+            max-width: 350px;
+            padding: 0 20px;
+        }
+
+        .manual-input input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--gray);
+            font-family: 'Poppins', sans-serif;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .manual-input input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Confirmation Modal */
+        .confirmation-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .confirmation-modal.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .confirmation-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .confirmation-message {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .confirmation-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.visible {
+            opacity: 1;
+        }
+
+        .toast.error {
+            background: rgba(211, 47, 47, 0.9);
+        }
+
+        /* Bottom Action Bar */
+        .bottom-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+            padding: 12px 16px;
+            z-index: 90;
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            color: var(--light-gray);
+            margin-bottom: 16px;
+        }
+
+        .empty-text {
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        /* Loading State */
+        .loading-state {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Profile Screen */
+        .profile-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--white);
+            z-index: 100;
+            padding: 20px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-screen.visible {
+            transform: translateX(0);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--primary);
+            margin-right: 16px;
+        }
+
+        .profile-info h2 {
+            font-size: 20px;
+            margin-bottom: 4px;
+            color: var(--dark);
+        }
+
+        .profile-info p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .profile-stat {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            text-align: center;
+        }
+
+        .profile-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .profile-stat-label {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        .profile-section {
+            margin-bottom: 24px;
+        }
+
+        .profile-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-section-title i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .profile-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .profile-detail:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: var(--dark);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-to-dashboard {
+            margin-top: 32px;
+            width: 100%;
+        }
+
+        /* Orders Panel */
+        .orders-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: var(--panel-width);
+            background: var(--white);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .orders-panel.visible {
+            transform: translateX(0);
+        }
+
+        .orders-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .orders-panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .close-panel {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--gray);
+            cursor: pointer;
+        }
+
+        .available-orders {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .available-order {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .available-order-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .available-order-id {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .available-order-location {
+            font-size: 13px;
+            color: var(--gray);
+            margin-bottom: 12px;
+        }
+
+        .pick-order-btn {
+            width: 100%;
+            padding: 8px;
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .order-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .profile-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .orders-panel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">Jikoni Deliveries</div>
+                <button class="profile-btn" id="profileBtn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Screen (default) -->
+        <main class="dashboard" id="dashboardScreen">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">Today's Deliveries</h1>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="pendingCount">3/5</div>
+                        <div class="stat-label">Pending Deliveries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="completedCount">2/5</div>
+                        <div class="stat-label">Completed Deliveries</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh <span id="earnings">1,370</span></div>
+                        <div class="stat-label">Today's Earnings</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="rating">4.8</div>
+                        <div class="stat-label">Your Rating</div>
+                    </div>
+                </div>
+                
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="pending">Pending</div>
+                        <div class="tab" data-tab="completed">Completed</div>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" class="search-input" id="searchInput" placeholder="Search by order ID or customer name...">
+                        <button class="search-clear" id="searchClear">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="orders-list" id="ordersList">
+                    <!-- Orders will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Profile Screen -->
+        <div class="profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-info">
+                    <h2>John Doe</h2>
+                    <p>Delivery Partner since June 2023</p>
+                </div>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <div class="profile-stat-value">4.8</div>
+                    <div class="profile-stat-label">Rating</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value">KSh 1,370</div>
+                    <div class="profile-stat-label">Today's Earnings</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value">127</div>
+                    <div class="profile-stat-label">Total Deliveries</div>
+                </div>
+                <div class="profile-stat">
+                    <div class="profile-stat-value">96%</div>
+                    <div class="profile-stat-label">Success Rate</div>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <h3 class="profile-section-title"><i class="fas fa-user-circle"></i> Personal Information</h3>
+                <div class="profile-detail">
+                    <span class="detail-label">Full Name</span>
+                    <span class="detail-value">John Doe</span>
+                </div>
+                <div class="profile-detail">
+                    <span class="detail-label">Phone</span>
+                    <span class="detail-value">+254 712 345 678</span>
+                </div>
+                <div class="profile-detail">
+                    <span class="detail-label">Email</span>
+                    <span class="detail-value">john.doe@example.com</span>
+                </div>
+                <div class="profile-detail">
+                    <span class="detail-label">Vehicle</span>
+                    <span class="detail-value">Motorcycle (KBR 123X)</span>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <h3 class="profile-section-title"><i class="fas fa-cog"></i> Account Settings</h3>
+                <div class="profile-detail clickable" id="changePasswordBtn">
+                    <span class="detail-label">Change Password</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="profile-detail clickable" id="notificationSettingsBtn">
+                    <span class="detail-label">Notification Settings</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="profile-detail clickable" id="privacySettingsBtn">
+                    <span class="detail-label">Privacy Settings</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+            </div>
+            
+            <div class="profile-section">
+                <h3 class="profile-section-title"><i class="fas fa-question-circle"></i> Support</h3>
+                <div class="profile-detail clickable" id="helpCenterBtn">
+                    <span class="detail-label">Help Center</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="profile-detail clickable" id="contactSupportBtn">
+                    <span class="detail-label">Contact Support</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="profile-detail clickable" id="termsBtn">
+                    <span class="detail-label">Terms & Conditions</span>
+                    <span class="detail-value"><i class="fas fa-chevron-right"></i></span>
+                </div>
+            </div>
+            
+            <button class="btn btn-outline" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+            
+            <button class="btn btn-primary back-to-dashboard" id="backToDashboard">
+                <i class="fas fa-arrow-left"></i>
+                Back to Dashboard
+            </button>
+        </div>
+
+        <div class="toast" id="toast">
+            <span id="toastMessage">Delivery confirmed successfully</span>
+            <i class="fas fa-check-circle"></i>
+        </div>
+
+        <!-- QR Scanner Modal -->
+        <div class="scanner-modal" id="scannerModal">
+            <div class="scanner-header">
+                <div class="scanner-title">
+                    <div class="scanner-main-title">Scan Customer QR Code</div>
+                    <div class="scanner-subtitle">Position the customer QR in the square to scan and complete delivery</div>
+                </div>
+                <button class="profile-btn profile-btn-scanner">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+            
+            <div class="scanner-container">
+                <div class="scanner-view">
+                    <video id="qrVideo" playsinline></video>
+                    <div class="scanner-overlay">
+                        <div class="scanner-window"></div>
+                        <div class="scanner-window-corner"></div>
+                        <div class="scanner-line"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="manual-input">
+                <input type="text" id="manualCodeInput" placeholder="Or enter code manually">
+            </div>
+            
+            <div class="scanner-actions">
+                <button class="btn btn-outline" id="cancelScan">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" id="confirmScan">
+                    Confirm Delivery
+                </button>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div class="confirmation-modal" id="confirmationModal">
+            <div class="confirmation-content">
+                <div class="confirmation-message" id="confirmationMessage">
+                    Are you sure you want to notify all pending customers?
+                </div>
+                <div class="confirmation-actions">
+                    <button class="btn btn-outline" id="cancelConfirm">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" id="confirmAction">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Panel -->
+        <div class="orders-panel" id="ordersPanel">
+            <div class="orders-panel-header">
+                <div class="orders-panel-title">Available Orders</div>
+                <button class="close-panel" id="closePanel">&times;</button>
+            </div>
+            
+            <div class="available-orders" id="availableOrders">
+                <!-- Available orders will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Bottom Action Bar -->
+        <div class="bottom-actions">
+            <button class="btn btn-outline" id="notifyAllBtn">
+                <i class="fas fa-bell"></i>
+                Notify All
+            </button>
+            <button class="btn btn-primary" id="newDeliveryBtn">
+                <i class="fas fa-plus"></i>
+                Add Order
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample order data (in a real app, this would come from an API)
+        const VALID_QR_CODE = "Hello World 1234567";
+        let orders = [
+            {
+                id: 'JKN-004',
+                customer: 'Sarah',
+                items: 'Pilau + Chicken Curry + Salad',
+                location: 'Westlands, ABC Apartments',
+                time: '10:30 AM',
+                phone: '+254712345678',
+                status: 'pending',
+                earnings: 850,
+                notified: false
+            },
+            {
+                id: 'JKN-005',
+                customer: 'James',
+                items: '2 Ugali + Beef Stew + Sukumawiki',
+                location: 'Kilimani, XYZ Plaza',
+                time: '11:15 AM',
+                phone: '+254723456789',
+                status: 'pending',
+                earnings: 680,
+                notified: false
+            },
+            {
+                id: 'JKN-006',
+                customer: 'Grace',
+                items: 'Rice + Fried Fish + Kachumbari',
+                location: 'Karen, Pine Court',
+                time: '12:45 PM',
+                phone: '+254734567890',
+                status: 'pending',
+                earnings: 920,
+                notified: false
+            },
+            {
+                id: 'JKN-007',
+                customer: 'Michael',
+                items: 'Chapati + Beans + Avocado',
+                location: 'Lavington, Green Heights',
+                time: '1:30 PM',
+                phone: '+254745678901',
+                status: 'completed',
+                earnings: 450,
+                notified: true,
+                deliveredTime: '2:15 PM'
+            },
+            {
+                id: 'JKN-008',
+                customer: 'Linda',
+                items: 'Ugali + Fried Fish + Kachumbari',
+                location: 'Runda, Palm Drive',
+                time: '2:45 PM',
+                phone: '+254756789012',
+                status: 'completed',
+                earnings: 550,
+                notified: true,
+                deliveredTime: '3:30 PM'
+            }
+        ];
+
+        // Sample available orders (would come from API in real app)
+        let availableOrders = [
+            {
+                id: 'JKN-009',
+                location: 'Kileleshwa, Valley View',
+                earnings: 720
+            },
+            {
+                id: 'JKN-010',
+                location: 'South B, Riverside Drive',
+                earnings: 650
+            },
+            {
+                id: 'JKN-011',
+                location: 'Upper Hill, Skyline Towers',
+                earnings: 890
+            },
+            {
+                id: 'JKN-012',
+                location: 'Parklands, Palm Court',
+                earnings: 580
+            }
+        ];
+
+        // DOM elements
+        const dashboardScreen = document.getElementById('dashboardScreen');
+        const profileScreen = document.getElementById('profileScreen');
+        const profileBtn = document.getElementById('profileBtn');
+        const backToDashboard = document.getElementById('backToDashboard');
+        const ordersList = document.getElementById('ordersList');
+        const scannerModal = document.getElementById('scannerModal');
+        const qrVideo = document.getElementById('qrVideo');
+        const manualCodeInput = document.getElementById('manualCodeInput');
+        const cancelScan = document.getElementById('cancelScan');
+        const confirmScan = document.getElementById('confirmScan');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const notifyAllBtn = document.getElementById('notifyAllBtn');
+        const newDeliveryBtn = document.getElementById('newDeliveryBtn');
+        const tabs = document.querySelectorAll('.tab');
+        const pendingCount = document.getElementById('pendingCount');
+        const completedCount = document.getElementById('completedCount');
+        const earnings = document.getElementById('earnings');
+        const rating = document.getElementById('rating');
+        const searchInput = document.getElementById('searchInput');
+        const searchClear = document.getElementById('searchClear');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        const cancelConfirm = document.getElementById('cancelConfirm');
+        const confirmAction = document.getElementById('confirmAction');
+        const ordersPanel = document.getElementById('ordersPanel');
+        const availableOrdersList = document.getElementById('availableOrders');
+        const closePanel = document.getElementById('closePanel');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Current scanned order and tab state
+        let currentOrderId = null;
+        let scannerActive = false;
+        let currentTab = 'pending';
+        let currentAction = null;
+
+        // Initialize the app
+        function init() {
+            loadOrders();
+            loadAvailableOrders();
+            updateStats();
+            
+            // Set up scanner modal
+            cancelScan.addEventListener('click', closeScannerModal);
+            
+            // Set up manual code input
+            manualCodeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validateCode(this.value.trim());
+                }
+            });
+            
+            confirmScan.addEventListener('click', function() {
+                validateCode(manualCodeInput.value.trim());
+            });
+            
+            // Set up action buttons
+            notifyAllBtn.addEventListener('click', () => {
+                showConfirmation('Are you sure you want to notify all pending customers?', 'notifyAll');
+            });
+            
+            newDeliveryBtn.addEventListener('click', () => {
+                ordersPanel.classList.add('visible');
+            });
+            
+            closePanel.addEventListener('click', () => {
+                ordersPanel.classList.remove('visible');
+            });
+            
+            // Set up profile screen toggle
+            profileBtn.addEventListener('click', () => {
+                dashboardScreen.style.display = 'none';
+                profileScreen.classList.add('visible');
+            });
+            
+            backToDashboard.addEventListener('click', () => {
+                profileScreen.classList.remove('visible');
+                dashboardScreen.style.display = 'block';
+            });
+            
+            // Set up tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTab = this.getAttribute('data-tab');
+                    loadOrders();
+                });
+            });
+            
+            // Close scanner when clicking outside
+            scannerModal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeScannerModal();
+                }
+            });
+            
+            // Close orders panel when clicking outside
+            ordersPanel.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    ordersPanel.classList.remove('visible');
+                }
+            });
+            
+            // Set up search functionality
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                if (searchTerm) {
+                    searchClear.style.display = 'block';
+                    filterOrders(searchTerm);
+                } else {
+                    searchClear.style.display = 'none';
+                    loadOrders();
+                }
+            });
+            
+            searchClear.addEventListener('click', function() {
+                searchInput.value = '';
+                this.style.display = 'none';
+                loadOrders();
+            });
+            
+            // Set up confirmation modal
+            cancelConfirm.addEventListener('click', closeConfirmation);
+            confirmAction.addEventListener('click', executeConfirmedAction);
+            
+            // Set up logout
+            logoutBtn.addEventListener('click', () => {
+                showConfirmation('Are you sure you want to logout?', 'logout');
+            });
+        }
+
+        // Load available orders
+        function loadAvailableOrders() {
+            availableOrdersList.innerHTML = '';
+            
+            if (availableOrders.length === 0) {
+                availableOrdersList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="empty-text">
+                            No available orders at the moment
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            availableOrders.forEach(order => {
+                const orderEl = document.createElement('div');
+                orderEl.className = 'available-order';
+                orderEl.innerHTML = `
+                    <div class="available-order-header">
+                        <div class="available-order-id">#${order.id}</div>
+                        <div class="order-time">KSh ${order.earnings}</div>
+                    </div>
+                    <div class="available-order-location">${order.location}</div>
+                    <button class="btn btn-primary pick-order-btn" data-id="${order.id}">
+                        <i class="fas fa-check"></i>
+                        Pick Order
+                    </button>
+                `;
+                availableOrdersList.appendChild(orderEl);
+            });
+            
+            // Add event listeners to pick order buttons
+            document.querySelectorAll('.pick-order-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-id');
+                    pickOrder(orderId);
+                });
+            });
+        }
+
+        // Pick an available order
+        function pickOrder(orderId) {
+            const orderIndex = availableOrders.findIndex(o => o.id === orderId);
+            if (orderIndex !== -1) {
+                const order = availableOrders[orderIndex];
+                
+                // Generate random customer details for demo
+                const names = ['John', 'Mary', 'David', 'Grace', 'Peter', 'Lucy'];
+                const items = [
+                    'Ugali + Beef Stew + Sukumawiki',
+                    'Pilau + Chicken Curry + Salad',
+                    'Rice + Fried Fish + Kachumbari',
+                    'Chapati + Beans + Avocado',
+                    'Ugali + Fried Fish + Kachumbari'
+                ];
+                
+                const now = new Date();
+                const hours = now.getHours();
+                const minutes = now.getMinutes();
+                const timeString = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+                
+                // Add to main orders
+                orders.unshift({
+                    id: order.id,
+                    customer: names[Math.floor(Math.random() * names.length)],
+                    items: items[Math.floor(Math.random() * items.length)],
+                    location: order.location,
+                    time: timeString,
+                    phone: '+2547' + Math.floor(1000000 + Math.random() * 9000000),
+                    status: 'pending',
+                    earnings: order.earnings,
+                    notified: false
+                });
+                
+                // Remove from available orders
+                availableOrders.splice(orderIndex, 1);
+                
+                // Update UI
+                loadOrders();
+                loadAvailableOrders();
+                updateStats();
+                ordersPanel.classList.remove('visible');
+                showToast('Order picked successfully');
+            }
+        }
+
+        // Filter orders based on search term
+        function filterOrders(searchTerm) {
+            const filteredOrders = orders.filter(order => 
+                order.status === currentTab && 
+                (order.id.toLowerCase().includes(searchTerm) || 
+                order.customer.toLowerCase().includes(searchTerm)
+            ));
+            
+            renderOrders(filteredOrders);
+        }
+
+        // Load orders into the list
+        function loadOrders() {
+            const filteredOrders = orders.filter(order => order.status === currentTab);
+            renderOrders(filteredOrders);
+        }
+
+        // Render orders to the DOM
+        function renderOrders(ordersToRender) {
+            ordersList.innerHTML = '';
+            
+            if (ordersToRender.length === 0) {
+                ordersList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-${currentTab === 'pending' ? 'clock' : 'check-circle'}"></i>
+                        </div>
+                        <div class="empty-text">
+                            ${currentTab === 'pending' ? 'No pending deliveries' : 'No completed deliveries yet'}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            ordersToRender.forEach(order => {
+                const orderEl = document.createElement('div');
+                orderEl.className = 'order-card';
+                orderEl.innerHTML = `
+                    ${order.status === 'pending' && order.notified ? `
+                        <div class="order-notified">
+                            <i class="fas fa-bell"></i>
+                            Notified
+                        </div>
+                    ` : ''}
+                    ${order.status === 'completed' ? `
+                        <div class="order-delivered-time">
+                            <i class="fas fa-check-circle"></i>
+                            Delivered at ${order.deliveredTime || order.time}
+                        </div>
+                    ` : ''}
+                    <div class="order-header">
+                        <div class="order-id">${order.customer} • <span>#${order.id}</span></div>
+                        </div>
+                    <div class="order-details">
+                        <div class="order-items">${order.items}</div>
+                        <div class="order-location">${order.location}</div>
+                    </div>
+                    <div class="order-actions">
+                        <button class="btn btn-outline btn-icon call-btn" data-phone="${order.phone}">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        ${order.status === 'pending' ? `
+                            <button class="btn btn-outline btn-icon notify-btn" data-id="${order.id}">
+                                <i class="fas fa-bell"></i>
+                            </button>
+                            <button class="btn btn-primary confirm-btn" data-id="${order.id}">
+                                <i class="fas fa-qrcode"></i>
+                                Confirm
+                            </button>
+                        ` : `
+                            <button class="btn btn-outline" disabled>
+                                <i class="fas fa-check"></i>
+                                Delivered
+                            </button>
+                        `}
+                    </div>
+                `;
+                ordersList.appendChild(orderEl);
+            });
+            
+            // Add event listeners to new buttons
+            document.querySelectorAll('.call-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const phone = this.getAttribute('data-phone');
+                    window.location.href = `tel:${phone}`;
+                });
+            });
+            
+            document.querySelectorAll('.notify-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-id');
+                    showConfirmation(`Notify ${orders.find(o => o.id === orderId).customer} about delivery?`, 'notifySingle', orderId);
+                });
+            });
+            
+            document.querySelectorAll('.confirm-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const orderId = this.getAttribute('data-id');
+                    openScanner(orderId);
+                });
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const pending = orders.filter(o => o.status === 'pending').length;
+            const completed = orders.filter(o => o.status === 'completed').length;
+            const totalOrders = orders.length;
+            const totalEarnings = orders.filter(o => o.status === 'completed')
+                                      .reduce((sum, o) => sum + o.earnings, 0);
+            
+            pendingCount.textContent = `${pending}/${totalOrders}`;
+            completedCount.textContent = `${completed}/${totalOrders}`;
+            earnings.textContent = totalEarnings.toLocaleString();
+        }
+
+        // Open scanner for specific order
+        function openScanner(orderId) {
+            currentOrderId = orderId;
+            scannerModal.classList.add('visible');
+            manualCodeInput.value = '';
+            
+            // Start camera (simulated in this demo)
+            // In a real app, you would use:
+            // navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            // For this demo, we'll simulate camera access
+            setTimeout(() => {
+                if (scannerModal.classList.contains('visible')) {
+                    scannerActive = true;
+                    simulateQRScan();
+                }
+            }, 500);
+        }
+
+        // Close scanner modal
+        function closeScannerModal() {
+            scannerModal.classList.remove('visible');
+            currentOrderId = null;
+            scannerActive = false;
+        }
+
+        // Simulate QR code scanning (for demo purposes)
+        function simulateQRScan() {
+            if (!scannerActive) return;
+            
+            // In a real app, you would process the video stream with a QR library
+            // For demo, we'll simulate scanning after 3 seconds
+            setTimeout(() => {
+                if (scannerActive) {
+                    // For demo, we'll randomly succeed or fail
+                    const success = Math.random() > 0.3;
+                    if (success) {
+                        validateCode(VALID_QR_CODE);
+                    } else {
+                        showToast('Invalid QR code. Please try again.', true);
+                    }
+                }
+            }, 3000);
+        }
+
+        // Validate the scanned/entered code
+        function validateCode(code) {
+            if (!code) {
+                showToast('Please enter a code', true);
+                return;
+            }
+            
+            if (code === VALID_QR_CODE) {
+                // Find the order in our data
+                const orderIndex = orders.findIndex(o => o.id === currentOrderId);
+                if (orderIndex !== -1) {
+                    // Update order status
+                    orders[orderIndex].status = 'completed';
+                    orders[orderIndex].notified = true;
+                    
+                    // Add delivery time
+                    const now = new Date();
+                    const hours = now.getHours();
+                    const minutes = now.getMinutes();
+                    orders[orderIndex].deliveredTime = `${hours}:${minutes < 10 ? '0' + minutes : minutes} ${hours >= 12 ? 'PM' : 'AM'}`;
+                    
+                    // Update UI
+                    loadOrders();
+                    updateStats();
+                    closeScannerModal();
+                    
+                    // Show confirmation
+                    showToast(`Delivery ${currentOrderId} confirmed`);
+                }
+            } else {
+                showToast('Invalid code. Please try again.', true);
+                manualCodeInput.focus();
+            }
+        }
+
+        // Show confirmation dialog
+        function showConfirmation(message, action, orderId = null) {
+            confirmationMessage.textContent = message;
+            currentAction = { type: action, orderId };
+            confirmationModal.classList.add('visible');
+        }
+
+        // Close confirmation dialog
+        function closeConfirmation() {
+            confirmationModal.classList.remove('visible');
+            currentAction = null;
+        }
+
+        // Execute the confirmed action
+        function executeConfirmedAction() {
+            if (!currentAction) {
+                closeConfirmation();
+                return;
+            }
+            
+            const { type, orderId } = currentAction;
+            
+            if (type === 'notifyAll') {
+                notifyAllCustomers();
+            } else if (type === 'notifySingle' && orderId) {
+                notifyCustomer(orderId);
+            } else if (type === 'logout') {
+                // In a real app, this would redirect to logout
+                showToast('Logged out successfully');
+                setTimeout(() => {
+                    // Reset the app state for demo purposes
+                    window.location.reload();
+                }, 1500);
+            }
+            
+            closeConfirmation();
+        }
+
+        // Notify a single customer
+        function notifyCustomer(orderId) {
+            const orderIndex = orders.findIndex(o => o.id === orderId);
+            if (orderIndex !== -1) {
+                orders[orderIndex].notified = true;
+                loadOrders();
+                showToast(`Notified ${orders[orderIndex].customer} about delivery`);
+            }
+        }
+
+        // Notify all pending customers
+        function notifyAllCustomers() {
+            const pendingOrders = orders.filter(o => o.status === 'pending' && !o.notified);
+            if (pendingOrders.length === 0) {
+                showToast('No pending deliveries to notify', true);
+                return;
+            }
+            
+            pendingOrders.forEach(order => {
+                order.notified = true;
+            });
+            
+            loadOrders();
+            showToast(`Notified ${pendingOrders.length} customers about deliveries`);
+        }
+
+        // Show toast notification
+        function showToast(message, isError = false) {
+            toastMessage.textContent = message;
+            toast.className = isError ? 'toast error visible' : 'toast visible';
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
+
+        // Initialize the app when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
