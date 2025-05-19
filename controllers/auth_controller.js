@@ -126,7 +126,7 @@ const signup = async (req, res) => {
 
     // Send verification email
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: '"JaniFoods" <no-reply@shopjani.com>',
       to: email,
       subject: 'Welcome to JaniFoods',
       html: `Thank you ${firstName} for choosing JaniFoods. We hope you will love it here. Click <a href="https://janifoods.onrender.com">here</a> to try out our authentic menu with great discounts! `
