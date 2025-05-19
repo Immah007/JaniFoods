@@ -124,16 +124,17 @@ const signup = async (req, res) => {
       { expiresIn: '1d' }
     );
 
-    /*/ Send verification email
+    // Send verification email
     const mailOptions = {
       from: process.env.EMAIL_USER,
-      to: 'nuelemman980@gmail.com',//email,
-      subject: 'Verify Your Email',
-      html: `<p>Please click <a href="${process.env.BASE_URL}/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`
+      to: email,
+      subject: 'Welcome to JaniFoods',
+      html: `Thank you ${firstName} for choosing JaniFoods. We hope you will love it here. Click <a href="https://janifoods.onrender.com">here</a> to try out our authentic menu with great discounts! `,
+    // html: `<p>Please click <a href="${process.env.BASE_URL}/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`
     };
 
     await transporter.sendMail(mailOptions);
-    */
+    
 
 
      const token = jwt.sign(
