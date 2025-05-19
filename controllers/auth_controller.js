@@ -129,7 +129,7 @@ const signup = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: 'Welcome to JaniFoods',
-      html: `Thank you ${firstName} for choosing JaniFoods. We hope you will love it here. Click <a href="https://janifoods.onrender.com">here</a> to try out our authentic menu with great discounts! `,
+      html: `Thank you ${firstName} for choosing JaniFoods. We hope you will love it here. Click <a href="https://janifoods.onrender.com">here</a> to try out our authentic menu with great discounts! `
     // html: `<p>Please click <a href="${process.env.BASE_URL}/verify-email?token=${verificationToken}">here</a> to verify your email.</p>`
     };
 
