@@ -103,8 +103,8 @@ const createOrder = async (req, res) => {
       currency: 'KES',
       amount: 1, //total_paid,
       description: 'Payment for purchase...',
-      callback_url: 'https://52c9-102-7-37-144.ngrok-free.app/api/handle-ipn-callback',
-      notification_id: '34d0334f-dfbd-499d-abe2-dbca91592120',
+      callback_url: 'https://janifoods.onrender.com/api/handle-ipn-callback',
+      notification_id: 'a692d54c-e565-4857-8aea-dbca68fc4bf0',
       branch: 'Store Name - HQ',
       billing_address: {
         email_address: req.user?.email,
