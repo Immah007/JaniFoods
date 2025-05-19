@@ -278,7 +278,7 @@ const signup = async (req, res) => {
     <div class="container">
         <div class="content">
             <div class="logo-container">
-                <img src="/images/janifoods_bnw.png" alt="JaniFoods Logo" class="logo">
+                <img src="https://asset.cloudinary.com/dzzh65wj4/1904f7bd7292d9e350f34ecc557548fd" alt="JaniFoods Logo" class="logo">
             </div>
             
             <div class="email-body">
