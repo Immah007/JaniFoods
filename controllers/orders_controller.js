@@ -315,7 +315,7 @@ const handleIPNCallback = async (req, res) => {
       const supportEmail = 'support@shopease.com';
       const mailOptions = {
         from: '"JaniFoods" <no-reply@shopjani.com>',
-        to: email,
+        to: completeOrder.email,
         subject: 'Your Order is Confirmed Successfully!',
         html: `Thank you ${completeOrder.first_name}! We have received your otrder and we are currently processing it. It will be rady for delivery shortly`
       };
