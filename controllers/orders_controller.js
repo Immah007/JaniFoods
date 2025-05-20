@@ -280,8 +280,8 @@ const handleIPNCallback = async (req, res) => {
         id: completeOrder.id,
         amount: completeOrder.total_paid,
         user_id: completeOrder.user_id,
-        firstname: completeOrder.first_name || 'unclassified',
-        lastname: completeOrder.last_name || 'unclassified',
+        firstname: completeOrder.firstname || 'unclassified',
+        lastname: completeOrder.lastname || 'unclassified',
         phone: completeOrder.phone,//orderData.phone || '-',
         email: completeOrder.email,//req.user?.email || 'not found',
         total: completeOrder.total,
@@ -316,7 +316,7 @@ const handleIPNCallback = async (req, res) => {
       const mailOptions = {
         from: '"JaniFoods" <no-reply@shopjani.com>',
         to: completeOrder.email,
-        subject: 'Your Order is Confirmed Successfully!',
+        subject: `Thank you ${completeOrder.firstname} for making today special! We can't wait to do it again!😊`,
         html: `<!DOCTYPE html>
 <html>
 <head>
@@ -443,7 +443,7 @@ const handleIPNCallback = async (req, res) => {
             </div>
             
             <div class="email-body">
-                <p>Thank you ${completeOrder.first_name} for your order,</p>
+                <p>Thank you ${completeOrder.firstname} for your order,</p>
                 
                 <p>Your order is not just a meal to us - it is a moment, <b class="bold">made with care</b>, crafted with precision, and delivered with heart. We have received your payment, and we are meticulously crafting your order to your desired taste 😉</p>
                  
