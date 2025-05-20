@@ -252,7 +252,7 @@ const handleIPNCallback = async (req, res) => {
       const orderTrackingId = transactionDetails.order_tracking_id;
       const now = new Date().toTimeString().split(' ')[0];
       const today = new Date().getDate();
-      const thisMonth = new Date().getMonth();
+      const thisMonth = new Date().getMonth() + 1;
       const thisYear = new Date().getFullYear();
       const amountPaid = transactionDetails.amount || 0;
 
