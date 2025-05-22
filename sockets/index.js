@@ -127,6 +127,19 @@ const initializeSocket = (server) => {
         console.error('Error processing food', err);
       }
     });
+
+    //Notify Customer their order has been delivered
+    socket.on('order-delivered', async ({ orderId }) => {
+      try {
+        const orderResult = await pool.query('SELECT * FROM orders WHERE id = $1', [orderId]);
+        let customerId = orderResult.rows[0].user_id;         
+        
+        io.to(`user-${customerId}`).emit('order-delivered', { orderId, customerId, status: 'delivered', message: 'Your order has been delivered'});
+        //io.emit('order-completed', { orderId, customerId, status: 'completed', message: 'SERVER: Your order has been completed'});
+      } catch (err) {
+        console.error('Error completing order', err);
+      }
+    });
     
     //Complete Order
     socket.on('order-completed', async ({ orderId }) => {
