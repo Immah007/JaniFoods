@@ -103,8 +103,8 @@ const createOrder = async (req, res) => {
       currency: 'KES',
       amount: 1, //total_paid,
       description: 'Payment for purchase...',
-      callback_url: 'https://52c9-102-7-37-144.ngrok-free.app/api/handle-ipn-callback',
-      notification_id: '34d0334f-dfbd-499d-abe2-dbca91592120',
+      callback_url: 'https://janifoods.onrender.com/api/handle-ipn-callback',
+      notification_id: 'a692d54c-e565-4857-8aea-dbca68fc4bf0',
       branch: 'Store Name - HQ',
       billing_address: {
         email_address: req.user?.email,
@@ -261,7 +261,7 @@ const handleIPNCallback = async (req, res) => {
 
 
       await pool.query(
-        `UPDATE orders SET payment_completed = $1, payment_method =$2, transaction_code = $3, time = $4, date = $5, month = $6, year = $7, total_paid = $8 delivery_code = $9 WHERE order_tracking_id = $10`,
+        `UPDATE orders SET payment_completed = $1, payment_method =$2, transaction_code = $3, time = $4, date = $5, month = $6, year = $7, total_paid = $8, delivery_code = $9 WHERE order_tracking_id = $10`,
         [paymentCompleted, paymentMethod, transactionCode, now, today, thisMonth, thisYear, amountPaid, orderTrackingId, deliveryCode]
       );
 
