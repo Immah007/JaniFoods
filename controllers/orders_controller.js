@@ -103,8 +103,8 @@ const createOrder = async (req, res) => {
       currency: 'KES',
       amount: 1, //total_paid,
       description: 'Payment for purchase...',
-      callback_url: 'https://janifoods.onrender.com/api/handle-ipn-callback',
-      notification_id: 'a692d54c-e565-4857-8aea-dbca68fc4bf0',
+      callback_url: 'https://52c9-102-7-37-144.ngrok-free.app/api/handle-ipn-callback',
+      notification_id: '34d0334f-dfbd-499d-abe2-dbca91592120',
       branch: 'Store Name - HQ',
       billing_address: {
         email_address: req.user?.email,
@@ -242,7 +242,7 @@ const handleIPNCallback = async (req, res) => {
       }
 
 
-      let orderUniqueID = generateRandomString(7);
+      let deliveryCode = generateRandomString(7);
 
 
       const paymentCompleted = true;
@@ -252,7 +252,7 @@ const handleIPNCallback = async (req, res) => {
       const orderTrackingId = transactionDetails.order_tracking_id;
       const now = new Date().toTimeString().split(' ')[0];
       const today = new Date().getDate();
-      const thisMonth = new Date().getMonth() + 1;
+      const thisMonth = new Date().getMonth();
       const thisYear = new Date().getFullYear();
       const amountPaid = transactionDetails.amount || 0;
 
@@ -260,13 +260,9 @@ const handleIPNCallback = async (req, res) => {
 
 
 
-
-
-
-
       await pool.query(
-        `UPDATE orders SET payment_completed = $1, payment_method =$2, transaction_code = $3, time = $4, date = $5, month = $6, year = $7, total_paid = $8 WHERE order_tracking_id = $9`,
-        [paymentCompleted, paymentMethod, transactionCode, now, today, thisMonth, thisYear, amountPaid, orderTrackingId]
+        `UPDATE orders SET payment_completed = $1, payment_method =$2, transaction_code = $3, time = $4, date = $5, month = $6, year = $7, total_paid = $8 delivery_code = $9 WHERE order_tracking_id = $10`,
+        [paymentCompleted, paymentMethod, transactionCode, now, today, thisMonth, thisYear, amountPaid, orderTrackingId, deliveryCode]
       );
 
       const completeOrderData = await pool.query(
@@ -280,8 +276,8 @@ const handleIPNCallback = async (req, res) => {
         id: completeOrder.id,
         amount: completeOrder.total_paid,
         user_id: completeOrder.user_id,
-        firstname: completeOrder.firstname || 'unclassified',
-        lastname: completeOrder.lastname || 'unclassified',
+        firstname: completeOrder.first_name || 'unclassified',
+        lastname: completeOrder.last_name || 'unclassified',
         phone: completeOrder.phone,//orderData.phone || '-',
         email: completeOrder.email,//req.user?.email || 'not found',
         total: completeOrder.total,
@@ -315,168 +311,9 @@ const handleIPNCallback = async (req, res) => {
       const supportEmail = 'support@shopease.com';
       const mailOptions = {
         from: '"JaniFoods" <no-reply@shopjani.com>',
-        to: completeOrder.email,
-        subject: `Thank you ${completeOrder.firstname} for making today special! We can't wait to do it again!😊`,
-        html: `<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thank You for Your Order</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 12px;
-            background-color: #ECEFF1;
-            color: #263238;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .content {
-            background-color: #ffffff;
-            padding: 0;
-            border-radius: 7px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-        }
-
-        .bold{
-            font-weight: 800;
-        }
-        
-        .logo-container {
-            padding: 20px 20px;
-            text-align: center;
-            background-color: #263238;
-        }
-        
-        .logo {
-            height: 50px;
-        }
-        
-        .email-body {
-            padding: 20px;
-            padding-top: 0;
-        }
-        
-        p {
-            margin-bottom: 20px;
-            font-size: 15px;
-            color: #263238;
-        }
-        
-        .signature {
-            margin-top: 30px;
-            font-style: italic;
-        }
-        
-        .footer {
-            background-color: #263238;
-            padding: 30px 12px;
-            margin: 0 auto;
-            font-size: .7rem;
-            text-align: center;
-        }
-        
-        .social-links {
-            margin-bottom: 20px;
-        }
-        
-        .social-link {
-            color: #ffffff;
-            font-size: 18px;
-            margin: 0 10px;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .social-link:hover {
-            color: #1B5E20;
-        }
-        
-        .footer-links {
-            margin-top: 20px;
-            font-size: 12px;
-        }
-        
-        .footer-links a {
-            color: #607D8B;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        
-        .footer-links a:hover {
-            color: #ffffff;
-        }
-        
-        .copyright p {
-            color: #607D8B;
-            font-size: 12px;
-            text-align: center;
-            margin-top: 20px;
-        }
-        
-        @media only screen and (max-width: 600px) {
-            .email-body {
-                padding: 20px;
-            }
-            
-            p {
-                font-size: 14px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="content">
-            <div class="logo-container">
-                <img src="https://asset.cloudinary.com/dzzh65wj4/1904f7bd7292d9e350f34ecc557548fd" alt="JaniFoods Logo" class="logo">
-            </div>
-            
-            <div class="email-body">
-                <p>Thank you ${completeOrder.firstname} for your order,</p>
-                
-                <p>Your order is not just a meal to us - it is a moment, <b class="bold">made with care</b>, crafted with precision, and delivered with heart. We have received your payment, and we are meticulously crafting your order to your desired taste 😉</p>
-                 
-                <p>Incase of any issues or queries concerning your order, please feel free to reach out to us via our customer support service. We always sort out stuff! Again, Thank you for letting us be a part of your day!😊 Anytime the cravings hit, we will be ready to make it even more special for you!😁</p>
-                
-                <div class="signature">
-                    <p>With special appreciation,<br><b>The JaniFoods Team</b><br>Nairobi, KE</p>
-                    <p>Because once you experience us, it's never quite the same again.</p>
-                </div>
-            </div>
-            
-            <div class="footer">
-                <div class="social-links">
-                    <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
-                </div>
-                
-                <div class="footer-links">
-                    <a href="#">Customer Support</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
-                </div>
-            </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2023 JaniFoods Nairobi. All rights reserved.</p>
-        </div>
-    </div>
-</body>
-</html>`
+        to: 'naiunicode@gmail.com', //email,
+        subject: 'Your Order is Confirmed Successfully!',
+        html: `Thank you ${completeOrder.first_name}...`
       };
 
       // Send the Confirmation email
@@ -518,8 +355,11 @@ const updateOrderStatus = async (req, res) => {
       return res.status(404).json({ error: 'Order not found' });
     }
 
+    const currentStatus = orderResult.rows[0].status;
+  
+    if(currentStatus !== 'completed') {
     await pool.query('UPDATE orders SET status = $1 WHERE id = $2', [status, id]);
-
+    }
     const updatedOrder = (await pool.query('SELECT * FROM orders WHERE id = $1', [id])).rows[0];
 
     // Convert prices back to decimal for frontend
