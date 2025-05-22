@@ -2213,7 +2213,10 @@ function renderOrdersTable(filter = 'all') {
       statusBadge = '<span class="status pending">Pending</span>';
     } else if (order.status === 'delivering') {
       statusBadge = '<span class="status delivering">Delivering</span>';
-    } else {
+    } else if (order.status === 'delivered') {
+      statusBadge = '<span class="status completed">Delivered</span>';
+    } 
+    else {
       statusBadge = '<span class="status cancelled">Cancelled</span>';
     }
     
@@ -2223,7 +2226,11 @@ function renderOrdersTable(filter = 'all') {
       actionButtons += `<button class="action-btn process" onclick="processOrder('${order.id}')">Process</button>`;
     } else if (order.status === 'delivering') {
       actionButtons += `<button class="action-btn complete" onclick="completeOrder('${order.id}')">Complete</button>`;
+    } else if (order.status === 'delivered') {
+      actionButtons += `<button class="action-btn complete" onclick="completeOrder('${order.id}')">Complete</button>`;
     }
+
+    actionButtons += `<button class="action-btn view" onclick="notifyDelivery('${order.id}','${order.firstname}')">Notify</button>`;
    
     row.innerHTML = `
       <td>#JKN-${order.id}</td>
@@ -2834,6 +2841,23 @@ function processOrder(orderId) {
     if (result.success) {
       socket.emit('order-processed', { orderId })
       showNotification(`Order #${orderId} has been processed and is now being delivered`);
+    }
+  });
+}
+
+function notifyDelivery(orderId, customerFirstname) {
+  fetch(`/api/orders-update/${orderId}/status`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: 'delivered' })
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.success) {
+      socket.emit('order-delivered', { orderId })
+      showNotification(`You have notified customer - ${customerFirstname} that their order #${orderId} has been delivered`);
     }
   });
 }
